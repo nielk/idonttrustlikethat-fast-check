@@ -1,18 +1,33 @@
-import fc, { Arbitrary } from 'fast-check';
+import {
+  option,
+  constant,
+  integer,
+  string,
+  stringMatching,
+  oneof,
+  float,
+  boolean,
+  Arbitrary,
+  record,
+  array,
+  date,
+  dictionary,
+  tuple,
+} from 'fast-check';
 import {
   Validator,
   number,
-  string,
-  boolean,
+  string as idtltString,
+  boolean as idtltBoolean,
   null as idtltNull,
   undefined as idtltUndefined,
   isoDate,
   literal,
   object,
-  array,
-  dictionary,
+  array as idtltArray,
+  dictionary as idtltDictionary,
   union,
-  tuple,
+  tuple as idtltTuple,
   intersection,
   unknown,
 } from 'idonttrustlikethat';
@@ -26,10 +41,10 @@ type AllowedInput =
   | Validator<boolean>
   | Validator<typeof object>
   | Validator<Date>
-  | Validator<typeof array>
-  | Validator<typeof dictionary>
+  | Validator<typeof idtltArray>
+  | Validator<typeof idtltDictionary>
   | Validator<typeof union>
-  | Validator<typeof tuple>
+  | Validator<typeof idtltTuple>
   | Validator<typeof intersection>
   | Validator<typeof literal>;
 
@@ -38,53 +53,53 @@ type OfType<T> = T extends Validator<infer U> ? U : never;
 type Arb<T extends AllowedInput> = Arbitrary<OfType<T>>;
 
 function __injectDefaultValue<T extends AllowedInput, U>(arb: Arb<T>, defaultValue: U): Arb<T> {
-  return fc.option(arb, { nil: defaultValue }) as Arb<T>;
+  return option(arb, { nil: defaultValue }) as Arb<T>;
 }
 
 function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
-  const defaultValue = fc.constant(undefined);
+  const defaultValue = constant(undefined);
 
   switch (true) {
     case validator.meta.tag === 'null': {
-      return fc.constant(null) as Arb<T>;
+      return constant(null) as Arb<T>;
     }
 
     case validator.meta.tag === 'undefined': {
-      return fc.constant(undefined) as Arb<T>;
+      return constant(undefined) as Arb<T>;
     }
 
     case validator.meta.tag === 'number': {
-      return fc.integer() as Arb<T>;
+      return integer() as Arb<T>;
     }
 
     case validator.meta.tag === 'string' && validator.meta.logicalType === 'integer': {
-      return fc.integer().map((v) => `${v}`) as Arb<T>;
+      return integer().map((v) => `${v}`) as Arb<T>;
     }
 
     case validator.meta.tag === 'string' && validator.meta.logicalType === 'absoluteUrl': {
       const urlRegex = /^((http:|https:)(\/\/))(\w)+(\.)+([a-z])+$/;
 
-      return fc.stringMatching(urlRegex) as Arb<T>;
+      return stringMatching(urlRegex) as Arb<T>;
     }
 
     case validator.meta.tag === 'string' && validator.meta.logicalType === 'number': {
-      return fc.oneof(fc.float({ noNaN: true }), fc.integer()).map((v) => `${v}`) as Arb<T>;
+      return oneof(float({ noNaN: true }), integer()).map((v) => `${v}`) as Arb<T>;
     }
 
     case validator.meta.tag === 'string': {
-      const arb = validator.validate('foobar').ok ? fc.string() : fc.date().map((v) => v.toISOString());
+      const arb = validator.validate('foobar').ok ? string() : date().map((v) => v.toISOString());
 
       return arb as Arb<T>;
     }
 
     case validator.meta.tag === 'boolean': {
-      return fc.boolean() as Arb<T>;
+      return boolean() as Arb<T>;
     }
 
     case Object.hasOwn(validator, 'literal'): {
       const v = validator as unknown as { literal: string };
 
-      return fc.constant(v.literal) as Arb<T>;
+      return constant(v.literal) as Arb<T>;
     }
 
     case validator.meta.tag === 'object' || validator.meta.tag === 'intersection': {
@@ -92,30 +107,30 @@ function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
         Object.entries<Validator<T>>(validator.meta.props).map(([k, v]) => [k, inputOf(v)]),
       );
 
-      return fc.record(props) as Arb<T>;
+      return record(props) as Arb<T>;
     }
 
     case validator.meta.tag === 'array': {
       const innerValue = inputOf(validator.meta.value);
 
-      return fc.array(innerValue) as Arb<T>;
+      return array(innerValue) as Arb<T>;
     }
 
     case validator.meta.tag === 'dictionary': {
-      return fc.dictionary(fc.string(), inputOf(validator.meta.value)) as Arb<T>;
+      return dictionary(string(), inputOf(validator.meta.value)) as Arb<T>;
     }
 
     case validator.meta.tag === 'tuple': {
       const expectedTupleLength = __guessTupleLength(validator) ?? 0;
       const expectedTupleTypes = __guessTupleTypes(validator, expectedTupleLength);
 
-      return fc.tuple(...expectedTupleTypes) as Arb<T>;
+      return tuple(...expectedTupleTypes) as Arb<T>;
     }
 
     case validator.meta.tag === 'union' && validator.meta.tag !== 'tuple': {
       const types = validator.meta.union.map(inputOf);
 
-      return fc.oneof(...types) as Arb<T>;
+      return oneof(...types) as Arb<T>;
     }
 
     default: {
@@ -128,9 +143,9 @@ function inputOf<T extends AllowedInput>(validator: T): Arb<T> {
   const arb = matchArbitrary(validator);
 
   if (validator.meta.optional) {
-    return fc.option(arb, { nil: undefined }) as Arb<T>;
+    return option(arb, { nil: undefined }) as Arb<T>;
   } else if (validator.meta.nullable) {
-    return fc.option(arb, { nil: null }) as Arb<T>;
+    return option(arb, { nil: null }) as Arb<T>;
   }
 
   if (validator.meta.default) {
@@ -170,8 +185,8 @@ const __mapTypeToIdtltType: { [k: string]: AllowedInput } = {
   undefined: idtltUndefined,
   unknown: unknown,
   number: number,
-  string: string,
-  boolean: boolean,
+  string: idtltString,
+  boolean: idtltBoolean,
   isoDate: isoDate,
 };
 function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: number): ReadonlyArray<Arb<T>> {

@@ -44,7 +44,8 @@
     "build:watch": "tsc && vite build --watch",
     "lint": "eslint src test && yarn prettier . --check && oxlint -A all",
     "format": "eslint src test --fix && yarn prettier . --write && oxlint -A all --fix",
-    "test": "vitest --typecheck",
+    "test": "vitest --run --typecheck",
+    "test:watch": "vitest --typecheck",
     "test:ui": "vitest --ui --typecheck",
     "coverage": "vitest run --coverage",
     "knip": "knip"
