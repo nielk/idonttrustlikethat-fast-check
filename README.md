@@ -32,7 +32,7 @@ pnpm add idonttrustlikethat-fast-check          # pnpm
 
 ## Basic usage
 
-Creating a simple string fast-check arbitrary from a idtlt validator:
+Creating a string fast-check arbitrary from a idtlt validator:
 
 ```typescript
 import fc from 'fast-check';
