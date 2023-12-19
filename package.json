@@ -40,14 +40,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && yarn format && yarn test && vite build",
     "build:watch": "tsc && vite build --watch",
-    "preview": "vite preview",
     "lint": "eslint src test && yarn prettier . --check && oxlint -A all",
     "format": "eslint src test --fix && yarn prettier . --write && oxlint -A all --fix",
     "test": "vitest --typecheck",
     "test:ui": "vitest --ui --typecheck",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "knip": "knip"
   },
   "dependencies": {
     "fast-check": "3.15.0",
@@ -63,6 +63,7 @@
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
+    "knip": "3.8.3",
     "oxlint": "0.0.20",
     "prettier": "3.1.1",
     "rollup-plugin-typescript-paths": "1.4.0",

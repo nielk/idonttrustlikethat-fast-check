@@ -29,19 +29,19 @@ pnpm add idonttrustlikethat-fast-check          # pnpm
 Creating a simple string fast-check arbitrary from a idtlt validator:
 
 ```typescript
-import fc from 'fast-check'
-import { string } from 'idonttrustlikethat'
-import { inputOf } from 'idonttrustlikethat-fast-check'
+import fc from 'fast-check';
+import { string } from 'idonttrustlikethat';
+import { inputOf } from 'idonttrustlikethat-fast-check';
 
-const stringArbitrary = inputOf(string)
+const stringArbitrary = inputOf(string);
 
 fc.assert(
   fc.property(stringArbitrary, (v) => {
     // Examples of generated values: "JT>\"C9k", "h]iD\"27;", "S", "n\\Ye", ""…
 
-    return string.validate(v).ok
-  })
-)
+    return string.validate(v).ok;
+  }),
+);
 ```
 
 [See playground](https://codesandbox.io/p/sandbox/idonttrustlikethat-fast-check-example-tm5zhc?file=%2Fsrc%2Findex.ts%3A10%2C20&layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522clqadg1pm00063b6fkwp40czb%2522%252C%2522sizes%2522%253A%255B70%252C30%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522clqadg1pm00023b6f22jv7v5s%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522clqadg1pm00033b6ff82yyvif%2522%257D%255D%252C%2522sizes%2522%253A%255B100%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522clqadg1pm00053b6f4djlqo9f%2522%257D%255D%252C%2522sizes%2522%253A%255B100%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522clqadg1pm00023b6f22jv7v5s%2522%253A%257B%2522id%2522%253A%2522clqadg1pm00023b6f22jv7v5s%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522clqadkfwq00023b6fkfpd3vor%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A10%252C%2522startColumn%2522%253A20%252C%2522endLineNumber%2522%253A10%252C%2522endColumn%2522%253A20%257D%255D%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.ts%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522clqaeg14800023b6fmrnfrde0%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A14%252C%2522startColumn%2522%253A44%252C%2522endLineNumber%2522%253A14%252C%2522endColumn%2522%253A44%257D%255D%252C%2522filepath%2522%253A%2522%252Fpackage.json%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522activeTabId%2522%253A%2522clqadkfwq00023b6fkfpd3vor%2522%257D%252C%2522clqadg1pm00053b6f4djlqo9f%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522clqadg1pm00043b6fkmg3d4ik%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522path%2522%253A%2522%252F%2522%257D%255D%252C%2522id%2522%253A%2522clqadg1pm00053b6f4djlqo9f%2522%252C%2522activeTabId%2522%253A%2522clqadg1pm00043b6fkmg3d4ik%2522%257D%252C%2522clqadg1pm00033b6ff82yyvif%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522clqadg1pm00033b6ff82yyvif%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Atrue%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D)
@@ -51,17 +51,9 @@ fc.assert(
 Here's a basic example demonstrating the usage of `inputOf`:
 
 ```typescript
-import fc from 'fast-check'
-import {
-  object,
-  array,
-  string,
-  isoDate,
-  boolean,
-  union,
-  literal,
-} from 'idonttrustlikethat'
-import { inputOf } from 'idonttrustlikethat-fast-check'
+import fc from 'fast-check';
+import { object, array, string, isoDate, boolean, union, literal } from 'idonttrustlikethat';
+import { inputOf } from 'idonttrustlikethat-fast-check';
 
 // Define a validator
 const validator = array(
@@ -75,15 +67,15 @@ const validator = array(
         tag: union(literal('bunny'), literal('pony'), literal('fox')),
         content: string,
         published: boolean,
-      })
+      }),
     ),
-  })
-)
+  }),
+);
 
 // Generate an arbitrary based on the validator
-const arbitrary = inputOf(validator)
+const arbitrary = inputOf(validator);
 
-fc.assert(fc.property(arbitrary, (v) => validator.validate(v).ok))
+fc.assert(fc.property(arbitrary, (v) => validator.validate(v).ok));
 ```
 
 Example of generated values:

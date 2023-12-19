@@ -3,11 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:import/recommended', 'prettier'],
   overrides: [
     {
       env: {
@@ -28,4 +24,4 @@ module.exports = {
   rules: {
     quotes: ['error', 'single'],
   },
-}
+};
