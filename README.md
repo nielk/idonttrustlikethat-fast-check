@@ -7,6 +7,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/idonttrustlikethat-fast-check)
 ![npm](https://img.shields.io/npm/v/idonttrustlikethat-fast-check)
 ![license](https://img.shields.io/npm/l/idonttrustlikethat-fast-check.svg)
+[![CI](https://github.com/nielk/idonttrustlikethat-fast-check/workflows/CI/badge.svg)](https://github.com/nielk/idonttrustlikethat-fast-check/actions/workflows/node.yml)
 
 ## Table of Contents
 
@@ -230,6 +231,16 @@ The following validators are not supported:
 - then
 - recursion
 - minSize
+```
+
+## Build manually
+
+```
+npm install # If need
+
+npm run build
+
+npm run test
 ```
 
 ## Contributing
