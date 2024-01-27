@@ -16,7 +16,7 @@ jobs:
       - name: Checkout tools repo
         uses: actions/checkout@v3
         with:
-          repository: idonttrustlikethat-fast-check
+          repository: nielk/idonttrustlikethat-fast-check
           path: ./
 
       - name: Install node dependencies
