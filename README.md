@@ -2,6 +2,7 @@
 
 **idonttrustlikethat-fast-check** is a plugin designed for [fast-check](https://fast-check.dev/). It convert [idonttrustlikethat](https://github.com/AlexGalays/idonttrustlikethat) validators to **fast-check** arbitraries. Allowing the possibility to use idtlt validators with fast-check.
 
+![CI](https://github.com/nielk/idonttrustlikethat-fast-check/actions/workflows/node.yml)
 ![monthly downloads](https://img.shields.io/npm/dm/idonttrustlikethat-fast-check)
 ![last commit](https://img.shields.io/github/last-commit/nielk/idonttrustlikethat-fast-check)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/idonttrustlikethat-fast-check)
@@ -233,6 +234,14 @@ The following validators are not supported:
 ```
 
 ## Contributing
+
+## Build manually
+
+```
+yarn install # If need
+yarn run build
+yarn run test
+```
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue. If you'd like to contribute code, please fork the repository and submit a pull request.
 
