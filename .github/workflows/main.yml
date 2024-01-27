@@ -18,11 +18,11 @@ jobs:
     steps:
       - name: Checkout 🛎️
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - id: yarn-cache
+      - run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - uses: actions/cache@v1
         with:
@@ -37,15 +37,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
 
       - name: Lint
-        run: yarn lint
+      - run: yarn lint
 
       - name: Build
-        run: yarn build
+      - run: yarn build
 
       - name: Run tests
-        run: yarn test
+      - run: yarn test
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
