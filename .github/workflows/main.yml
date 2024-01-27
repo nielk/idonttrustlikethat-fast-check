@@ -4,14 +4,14 @@ run-name: ${{ github.actor }} is running GitHub Actions 🚀
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
   pull_request:
   workflow_dispatch:
 
 jobs:
 
   main-ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
