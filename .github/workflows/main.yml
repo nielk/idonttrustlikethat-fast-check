@@ -9,36 +9,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  build_and_test:
+    name: Build and test
+    runs-on: ubuntu-latest
 
-  main-ci:
-    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout tools repo
-        uses: actions/checkout@v3
-        with:
-          repository: nielk/idonttrustlikethat-fast-check
-          path: ./
+      - name: Check out code
+        uses: actions/checkout@v4
 
-      - name: Install node dependencies
-        uses: ./
-        with:
-          working-directory: ./
-          install-command: yarn install --frozen-lockfile
+      - name: Install NPM dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Lint
-        uses: ./
-        with:
-          working-directory: ./
-          install-command: yarn lint
-
+        run: yarn run lint
+      
       - name: Test
-        uses: ./
-        with:
-          working-directory: ./
-          install-command: yarn test
+        run: yarn run test
 
       - name: Build
-        uses: ./
-        with:
-          working-directory: ./
-          install-command: yarn build
+        run: yarn run build
