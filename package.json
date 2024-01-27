@@ -13,7 +13,7 @@
   ],
   "author": "Alexandre Oger <oger.alexandre@gmail.com>",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.6.0"
   },
   "homepage": "https://github.com/nielk/idonttrustlikethat-fast-check#readme",
   "repository": {
