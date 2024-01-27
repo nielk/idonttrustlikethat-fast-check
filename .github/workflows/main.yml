@@ -13,8 +13,11 @@ jobs:
   main-ci:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout tools repo
+        uses: actions/checkout@v3
+        with:
+          repository: idonttrustlikethat-fast-check
+          path: ./
 
       - name: Install node dependencies
         uses: ./
