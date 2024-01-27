@@ -1,11 +1,11 @@
-name: Node.js CI
+name: Run CI
 run-name: ${{ github.actor }} is running GitHub Actions 🚀
 
 on:
   push:
-    branches: [$default-branch]
   pull_request:
-    branches: [$default-branch]
+    branches:
+      - main
 
 jobs:
   build:
