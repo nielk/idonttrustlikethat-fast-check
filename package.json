@@ -42,8 +42,8 @@
     "dev": "vite",
     "build": "tsc && yarn format && yarn test && vite build",
     "build:watch": "tsc && vite build --watch",
-    "lint": "eslint src test && yarn prettier . --check && oxlint -A all",
-    "format": "eslint src test --fix && yarn prettier . --write && oxlint -A all --fix",
+    "lint": "./node_modules/.bin/eslint src test && yarn prettier . --check && oxlint -A all",
+    "format": "./node_modules/.bin/eslint src test --fix && yarn prettier . --write && oxlint -A all --fix",
     "test": "vitest --run --typecheck",
     "test:watch": "vitest --typecheck",
     "test:ui": "vitest --ui --typecheck",
@@ -55,7 +55,8 @@
     "idonttrustlikethat": ">2.1.0 latest"
   },
   "resolutions": {
-    "vite": "5.0.12"
+    "vite": "5.0.12",
+    "strip-ansi": "6.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "11.1.6",
@@ -64,7 +65,7 @@
     "@typescript-eslint/parser": "6.19.1",
     "@vitest/coverage-v8": "1.2.2",
     "@vitest/ui": "1.2.2",
-    "eslint": "^8.56.0",
+    "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
     "fast-check": "3.15.0",

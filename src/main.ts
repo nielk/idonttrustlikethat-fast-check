@@ -191,7 +191,7 @@ const __mapTypeToIdtltType: { [k: string]: AllowedInput } = {
 };
 function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: number): ReadonlyArray<Arb<T>> {
   const dummyValidation = validator.validate(
-    new Array(numberOfTypes).fill({
+    Array.from({ length: numberOfTypes }).fill({
       foo: 'BigBunnyWithABrownPonyTail',
       bar: 42,
     }),
