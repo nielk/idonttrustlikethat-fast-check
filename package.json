@@ -68,7 +68,7 @@
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
-    "fast-check": "3.15.0",
+    "fast-check": "3.15.1",
     "idonttrustlikethat": "2.1.2",
     "knip": "4.2.3",
     "oxlint": "0.2.6",
