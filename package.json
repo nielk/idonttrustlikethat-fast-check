@@ -70,7 +70,7 @@
     "eslint-plugin-import": "2.29.1",
     "fast-check": "3.15.1",
     "idonttrustlikethat": "2.1.2",
-    "knip": "4.3.0",
+    "knip": "5.0.0",
     "oxlint": "0.2.6",
     "prettier": "3.2.4",
     "rollup-plugin-typescript-paths": "1.5.0",
