@@ -55,7 +55,7 @@
     "idonttrustlikethat": ">2.1.0 latest"
   },
   "resolutions": {
-    "vite": "5.0.12",
+    "vite": "5.2.11",
     "strip-ansi": "6.0.1"
   },
   "devDependencies": {
@@ -76,7 +76,7 @@
     "rollup-plugin-typescript-paths": "1.5.0",
     "tslib": "2.6.2",
     "typescript": "5.3.3",
-    "vite": "5.0.12",
+    "vite": "5.2.11",
     "vitest": "1.2.2"
   }
 }
