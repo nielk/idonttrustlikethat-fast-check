@@ -2063,7 +2063,7 @@ iterable-lookahead@^1.0.0:
   resolved "https://registry.yarnpkg.com/iterable-lookahead/-/iterable-lookahead-1.0.0.tgz#896dfcb78680bdb50036e97edb034c8b68a9737f"
   integrity sha512-hJnEP2Xk4+44DDwJqUQGdXal5VbyeWLaPyDl2AQc242Zr7iqz4DgpQOrEzglWVMGHMDCkguLHEKxd1+rOsmgSQ==
 
-jiti@^1.21.0:
+jiti@^1.21.6:
   version "1.21.6"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.6.tgz#6c7f7398dd4b3142767f9a168af2f317a428d268"
   integrity sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==
@@ -2119,17 +2119,17 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
-knip@5.22.3:
-  version "5.22.3"
-  resolved "https://registry.yarnpkg.com/knip/-/knip-5.22.3.tgz#7b95cb54cc1f4084d90954817df8fd01ae92ff50"
-  integrity sha512-aPHUMkl81WSAd1z3de7YWuPvrD7invRc5p70JGZnB/jH1O7KSqKNKwW9jTf4n5v/iGNFTM9YjnqZKTEKqsJoRw==
+knip@5.24.0:
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/knip/-/knip-5.24.0.tgz#70d48b0ed7b42beb98358382eb83c50d3ff519a5"
+  integrity sha512-qbnpR4dPTcuUHR+koC6JKPdIEcjc4jvwNfGCJlfuKmo3WmOyaTFocdkOb4dcbCtxrAr81HW4ApuqMv5g4rzfiQ==
   dependencies:
     "@ericcornelissen/bash-parser" "0.5.3"
     "@nodelib/fs.walk" "2.0.0"
     "@snyk/github-codeowners" "1.1.0"
     easy-table "1.2.0"
     fast-glob "^3.3.2"
-    jiti "^1.21.0"
+    jiti "^1.21.6"
     js-yaml "^4.1.0"
     minimist "^1.2.8"
     picocolors "^1.0.0"
