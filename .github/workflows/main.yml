@@ -10,21 +10,41 @@ on:
 
 jobs:
   build_and_test:
-    name: Build and test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install NPM dependencies
-        run: yarn install --frozen-lockfile
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Lint
-        run: yarn run lint
+        run: pnpm run lint
 
       - name: Test
-        run: yarn run test
+        run: pnpm run test
+
+      - name: Coverage
+        run: pnpm run coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build
-        run: yarn run build
+        run: pnpm run build
