@@ -4,6 +4,9 @@ import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
 import path from 'path';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
+
+import packageJson from './package.json';
 
 export default defineConfig({
   plugins: [],
@@ -36,6 +39,11 @@ export default defineConfig({
           sourceMap: false,
           declaration: true,
           outDir: 'dist',
+        }),
+        codecovVitePlugin({
+          enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+          bundleName: packageJson.name,
+          uploadToken: process.env.CODECOV_TOKEN,
         }),
       ],
     },

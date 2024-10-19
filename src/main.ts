@@ -171,7 +171,7 @@ function __guessTupleLength<T>(validator: Validator<T>): number | undefined {
     const matches = error.message.matchAll(errorPattern);
 
     for (const match of matches) {
-      const length = parseInt(match?.groups?.length || '0');
+      const length = parseInt(match?.groups?.['length'] || '0');
 
       realLength += length;
     }
@@ -189,6 +189,7 @@ const __mapTypeToIdtltType: { [k: string]: AllowedInput } = {
   boolean: idtltBoolean,
   isoDate: isoDate,
 };
+
 function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: number): ReadonlyArray<Arb<T>> {
   const dummyValidation = validator.validate(
     Array.from({ length: numberOfTypes }).fill({
@@ -199,7 +200,7 @@ function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: 
   const inferredTypes: Array<Arb<T>> = [];
 
   if (dummyValidation.ok) {
-    console.error('not supported idtlt validator provided');
+    console.error('the provided idtlt validator is not supported');
 
     return inferredTypes;
   }
@@ -208,7 +209,7 @@ function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: 
     const matches = error.message.matchAll(/Expected\s(?<type>\w+), got a?/gm);
 
     for (const match of matches) {
-      const matchedType = match?.groups?.type;
+      const matchedType = match?.groups?.['type'];
 
       if (
         matchedType !== undefined &&
@@ -217,7 +218,8 @@ function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: 
         matchedType !== 'array' &&
         !Array.isArray(matchedType)
       ) {
-        const type = __mapTypeToIdtltType[matchedType];
+        const type = __mapTypeToIdtltType[matchedType] ?? idtltUndefined;
+
         inferredTypes.push(inputOf(type) as Arb<T>);
       } else if (matchedType !== 'undefined') {
         console.error('Union with non-primitive values is not yet supported');

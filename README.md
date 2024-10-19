@@ -7,6 +7,7 @@
 ![last commit](https://img.shields.io/github/last-commit/nielk/idonttrustlikethat-fast-check)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/idonttrustlikethat-fast-check)
 ![npm](https://img.shields.io/npm/v/idonttrustlikethat-fast-check)
+[![codecov](https://codecov.io/github/nielk/idonttrustlikethat-fast-check/graph/badge.svg?token=USWA5N026O)](https://codecov.io/github/nielk/idonttrustlikethat-fast-check)
 ![license](https://img.shields.io/npm/l/idonttrustlikethat-fast-check.svg)
 
 ## Table of Contents
@@ -223,7 +224,7 @@ In this example, arbitrary will be a randomly generated array that satisfies the
 
 ### Unsupported validators
 
-The following validators are not supported:
+Despicte my will to support the following validators (I asked the idonttrustlikethat author to make change to make it possible, but had no responses… 😪), they are not supported:
 
 ```
 - discriminatedUnion
@@ -235,15 +236,69 @@ The following validators are not supported:
 
 ## Contributing
 
-## Build manually
+We welcome contributions to idonttrustlikethat-fast-check! Here's how you can help:
+
+### Reporting Issues
+
+If you find a bug or have a feature request:
+
+1. Search the [issue tracker](https://github.com/nielk/idonttrustlikethat-fast-check/issues) to ensure it hasn't been reported before.
+2. If not found, [open a new issue](https://github.com/nielk/idonttrustlikethat-fast-check/issues/new), providing as much detail as possible.
+
+### Contributing Code
+
+1. Fork the repository and create your branch from `main`.
+2. Clone your fork and install dependencies:
+   ```
+   git clone https://github.com/your-username/idonttrustlikethat-fast-check.git
+   cd idonttrustlikethat-fast-check
+   pnpm install
+   ```
+3. Make your changes, adding tests for new functionality.
+4. Ensure all tests pass:
+   ```
+   pnpm run test
+   ```
+5. Run the build process:
+   ```
+   pnpm run build
+   ```
+6. Commit your changes using a descriptive commit message.
+7. Push to your fork and [submit a pull request](https://github.com/nielk/idonttrustlikethat-fast-check/compare).
+
+### Code Style
+
+- Follow the existing code style.
+- Use meaningful variable names and add comments for complex logic.
+- Write clear commit messages.
+
+### Running Tests
+
+To run the test suite:
 
 ```
-yarn install # If need
-yarn run build
-yarn run test
+pnpm run test
 ```
 
-Contributions are welcome! If you find a bug or have a feature request, please open an issue. If you'd like to contribute code, please fork the repository and submit a pull request.
+For coverage report:
+
+```
+pnpm run coverage
+```
+
+### Documentation
+
+Improvements to documentation are always welcome. This includes:
+
+- README.md updates
+- Code comments
+- Examples in the `examples/` directory
+
+### Questions?
+
+Feel free to open an issue for any questions about contributing.
+
+Thank you for contributing to idonttrustlikethat-fast-check!
 
 # License
 
