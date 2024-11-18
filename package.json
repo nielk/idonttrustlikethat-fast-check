@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@codecov/vite-plugin": "1.2.1",
-    "@eslint/compat": "1.2.1",
+    "@eslint/compat": "1.2.3",
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.13.0",
     "@rollup/plugin-typescript": "12.1.1",
