@@ -80,7 +80,7 @@
     "fast-check": "3.22.0",
     "globals": "15.11.0",
     "idonttrustlikethat": "2.1.2",
-    "knip": "5.33.3",
+    "knip": "5.38.3",
     "oxlint": "0.10.0",
     "prettier": "3.3.3",
     "rollup-plugin-typescript-paths": "1.5.0",
