@@ -191,6 +191,7 @@ const __mapTypeToIdtltType: { [k: string]: AllowedInput } = {
 };
 
 function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: number): ReadonlyArray<Arb<T>> {
+  const errorPattern = /Expected\s(?<type>\w+), got a?/gm;
   const dummyValidation = validator.validate(
     Array.from({ length: numberOfTypes }).fill({
       foo: 'BigBunnyWithABrownPonyTail',
@@ -206,7 +207,7 @@ function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: 
   }
 
   for (const error of dummyValidation.errors) {
-    const matches = error.message.matchAll(/Expected\s(?<type>\w+), got a?/gm);
+    const matches = error.message.matchAll(errorPattern);
 
     for (const match of matches) {
       const matchedType = match?.groups?.['type'];
