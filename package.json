@@ -55,13 +55,17 @@
     "coverage": "vitest run --coverage",
     "update:deps": "pnpm up --latest -i",
     "prepublishOnly": "pnpm build",
-    "knip": "knip"
+    "knip": "knip",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "peerDependencies": {
     "fast-check": ">3.15.0 latest",
     "idonttrustlikethat": ">2.1.0 latest"
   },
   "devDependencies": {
+    "@changesets/cli": "2.27.11",
     "@codecov/vite-plugin": "1.6.0",
     "@eslint/compat": "1.2.4",
     "@eslint/eslintrc": "3.2.0",
