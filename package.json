@@ -1,7 +1,7 @@
 {
   "name": "idonttrustlikethat-fast-check",
   "private": false,
-  "version": "0.0.59",
+  "version": "0.0.60",
   "type": "module",
   "description": "idonttrustlikethat-fast-check is a plugin designed for fast-check. It convert idonttrustlikethat validators to fast-check arbitraries. Allowing the possibility to use idtlt validators with fast-check.",
   "keywords": [
