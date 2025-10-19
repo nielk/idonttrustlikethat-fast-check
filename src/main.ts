@@ -87,7 +87,9 @@ function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
     }
 
     case validator.meta.tag === 'string': {
-      const arb = validator.validate('foobar').ok ? string() : date().map((v) => v.toISOString());
+      const arb = validator.validate('foobar').ok
+        ? string()
+        : date({ noInvalidDate: true }).map((v) => v.toISOString());
 
       return arb as Arb<T>;
     }
