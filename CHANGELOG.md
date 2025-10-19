@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.57] - 2024-12-23
+
+### Fixed
+
+- Externalize peer dependencies (fast-check, idonttrustlikethat) in build configuration
+- Bundle size reduced from 94kB to 3.4kB (96% reduction)
+- Improves install performance and prevents dependency conflicts
+- Add noInvalidDate option to date arbitrary to prevent Invalid time value errors
+
+### Changed
+
+- Updated all development dependencies to latest versions
+- Updated knip configuration to include test files and JavaScript files
+
 ## [0.0.56] - 2024-12-23
 
 ### Added
