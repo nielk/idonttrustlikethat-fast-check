@@ -30,7 +30,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: [],
+      external: ['fast-check', 'idonttrustlikethat'],
       plugins: [
         typescriptPaths({
           preserveExtensions: true,
