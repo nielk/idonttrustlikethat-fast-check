@@ -1,4 +1,4 @@
-import fc, { Arbitrary } from 'fast-check';
+import fc, { Arbitrary, sample } from 'fast-check';
 import {
   number,
   string,
@@ -33,12 +33,26 @@ import {
 } from '../src/main.ts';
 import { idtltNotification, idtltInfo, idtltLocation } from './fixture/alert.ts';
 
+/**
+ * Properly typed `expect`.
+ *
+ * @example
+ * expect(2).toStrictEqual(true) // TS error
+ */
+
+export const expectT = expect as <A>(
+  actual: A,
+  message?: string,
+) => {
+  toStrictEqual(expected: A): void;
+};
+
 describe('inputOf primitives', () => {
   it('can convert idtlt null to fc null', () => {
     const validator = idtltNull;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<null>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<null>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -47,7 +61,7 @@ describe('inputOf primitives', () => {
     const validator = idtltUndefined;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -56,7 +70,7 @@ describe('inputOf primitives', () => {
     const validator = string;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<string>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<string>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -65,7 +79,7 @@ describe('inputOf primitives', () => {
     const validator = string.default(':(');
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<string>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<string>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -74,7 +88,7 @@ describe('inputOf primitives', () => {
     const validator = string.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<string | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<string | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -83,7 +97,7 @@ describe('inputOf primitives', () => {
     const validator = string.nullable();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<string | null | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<string | null | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -92,7 +106,7 @@ describe('inputOf primitives', () => {
     const validator = number;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<number>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<number>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -101,7 +115,7 @@ describe('inputOf primitives', () => {
     const validator = number.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<number | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<number | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -113,7 +127,7 @@ describe('inputOf tagged string/number', () => {
     const validator = string.tagged<UserId>();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<UserId>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<UserId>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -124,7 +138,7 @@ describe('inputOf tagged string/number', () => {
 
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<UserId | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<UserId | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -134,7 +148,7 @@ describe('inputOf tagged string/number', () => {
     const validator = number.tagged<UserId>();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<UserId>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<UserId>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -144,7 +158,7 @@ describe('inputOf tagged string/number', () => {
     const validator = number.tagged<UserId>().optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<UserId | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<UserId | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -155,7 +169,7 @@ describe('inputOf literal', () => {
     const validator = literal('foo');
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<'foo'>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<'foo'>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -164,7 +178,7 @@ describe('inputOf literal', () => {
     const validator = literal('foo').optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<'foo' | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<'foo' | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -177,7 +191,7 @@ describe('inputOf object', () => {
     });
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ id: string }>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ id: string }>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -188,7 +202,7 @@ describe('inputOf object', () => {
     }).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ id: string } | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ id: string } | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -197,7 +211,7 @@ describe('inputOf object', () => {
     const validator = idtltNotification;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof idtltNotification.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof idtltNotification.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -208,7 +222,7 @@ describe('inputOf array', () => {
     const validator = array(number);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<Array<number>>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Array<number>>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -217,7 +231,7 @@ describe('inputOf array', () => {
     const validator = array(idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<Array<typeof idtltNotification.T>>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Array<typeof idtltNotification.T>>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -226,7 +240,7 @@ describe('inputOf array', () => {
     const validator = array(number).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<Array<number> | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Array<number> | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -237,7 +251,7 @@ describe('inputOf dictionary', () => {
     const validator = dictionary(string, number);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ [x: string]: number }>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ [x: string]: number }>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -246,7 +260,7 @@ describe('inputOf dictionary', () => {
     const validator = dictionary(string, idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ [x: string]: typeof idtltNotification.T }>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ [x: string]: typeof idtltNotification.T }>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -255,7 +269,7 @@ describe('inputOf dictionary', () => {
     const validator = dictionary(string, number).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ [x: string]: number } | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ [x: string]: number } | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -267,7 +281,7 @@ describe('inputOf tuple', () => {
     const validator = tuple(string, number);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<[string, number]>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<[string, number]>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -276,7 +290,7 @@ describe('inputOf tuple', () => {
     const validator = tuple(string, number).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<[string, number] | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<[string, number] | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -288,7 +302,7 @@ describe('inputOf union', () => {
     const validator = union(string, number);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<string | number>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<string | number>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -297,7 +311,7 @@ describe('inputOf union', () => {
     const validator = union(idtltLocation, idtltInfo);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof idtltLocation.T | typeof idtltInfo.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof idtltLocation.T | typeof idtltInfo.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -306,7 +320,7 @@ describe('inputOf union', () => {
     const validator = union(object({ foo: number }), object({ bar: string })).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ foo: number } | { bar: string } | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ foo: number } | { bar: string } | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -317,7 +331,7 @@ describe('inputOf intersection', () => {
     const validator = intersection(object({ foo: number }), object({ bar: string }));
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ foo: number } & { bar: string }>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ foo: number } & { bar: string }>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -326,7 +340,7 @@ describe('inputOf intersection', () => {
     const validator = intersection(idtltInfo, idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof idtltInfo.T & typeof idtltNotification.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof idtltInfo.T & typeof idtltNotification.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -335,7 +349,7 @@ describe('inputOf intersection', () => {
     const validator = intersection(object({ foo: number }), object({ bar: string })).optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<{ foo: number; bar: string } | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<{ foo: number; bar: string } | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -346,7 +360,7 @@ describe('inputOf unknown', () => {
     const validator = unknown;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<unknown>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<unknown>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -357,7 +371,7 @@ describe('inputOf boolean', () => {
     const validator = boolean;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<boolean>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<boolean>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -366,7 +380,7 @@ describe('inputOf boolean', () => {
     const validator = boolean.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<boolean | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<boolean | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -377,7 +391,7 @@ describe('inputOf isoDate', () => {
     const validator = isoDate;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<Date>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Date>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -386,7 +400,7 @@ describe('inputOf isoDate', () => {
     const validator = isoDate.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<Date | undefined>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Date | undefined>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -397,7 +411,7 @@ describe('inputOf absoluteUrl', () => {
     const validator = absoluteUrl;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -406,7 +420,7 @@ describe('inputOf absoluteUrl', () => {
     const validator = absoluteUrl.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -417,7 +431,7 @@ describe('inputOf booleanFromString', () => {
     const validator = booleanFromString;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -426,7 +440,7 @@ describe('inputOf booleanFromString', () => {
     const validator = booleanFromString.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -437,7 +451,7 @@ describe('inputOf numberFromString', () => {
     const validator = numberFromString;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -446,7 +460,7 @@ describe('inputOf numberFromString', () => {
     const validator = numberFromString.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -457,7 +471,7 @@ describe('inputOf intFromString', () => {
     const validator = intFromString;
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -466,7 +480,7 @@ describe('inputOf intFromString', () => {
     const validator = intFromString.optional();
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => validator.validate(v).ok));
   });
@@ -477,7 +491,7 @@ describe('inputOf no passing tests', () => {
     const validator = tuple(idtltInfo, idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<[typeof idtltInfo.T, typeof idtltNotification.T]>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<[typeof idtltInfo.T, typeof idtltNotification.T]>>();
 
     fc.assert(fc.property(result, (v) => !validator.validate(v).ok));
   });
@@ -486,7 +500,7 @@ describe('inputOf no passing tests', () => {
     const validator = tuple(array(idtltInfo), idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<[Array<typeof idtltInfo.T>, typeof idtltNotification.T]>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<[Array<typeof idtltInfo.T>, typeof idtltNotification.T]>>();
 
     fc.assert(fc.property(result, (v) => !validator.validate(v).ok));
   });
@@ -495,7 +509,7 @@ describe('inputOf no passing tests', () => {
     const validator = tuple(dictionary(string, idtltInfo), idtltNotification);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<
+    expectTypeOf(result).toEqualTypeOf<
       Arbitrary<[{ [key: string]: typeof idtltInfo.T }, typeof idtltNotification.T]>
     >();
 
@@ -506,7 +520,7 @@ describe('inputOf no passing tests', () => {
     const validator = tuple(literal('foo'), literal('bar'));
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<['foo', 'bar']>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<['foo', 'bar']>>();
 
     fc.assert(fc.property(result, (v) => !validator.validate(v).ok));
   });
@@ -520,7 +534,7 @@ describe('inputOf no passing tests', () => {
     );
     const length = __guessTupleLength(validator);
 
-    expectTypeOf(length).toMatchTypeOf<number | undefined>();
+    expectTypeOf(length).toEqualTypeOf<number | undefined>();
 
     expect(length).toBeUndefined();
   });
@@ -550,7 +564,7 @@ describe('inputOf no passing tests', () => {
     const validator = discriminatedUnion('type', userSending, userEditing);
     const result = inputOf(validator);
 
-    expectTypeOf(result).toMatchTypeOf<Arbitrary<typeof validator.T>>();
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<typeof validator.T>>();
 
     fc.assert(fc.property(result, (v) => !validator.validate(v).ok));
   });
@@ -669,5 +683,20 @@ describe('private function tests', () => {
 
     expect(validatorIsoDate.validate(new Date().toISOString()).ok).toBeTruthy();
     expect(validatorIsoDate.validate(3.14159).ok).toBeFalsy();
+  });
+
+  it('should support `noNullPrototype` option', () => {
+    const validator = object({ foo: literal('bar') });
+    const arb = inputOf(validator, { noNullPrototype: true });
+
+    // every object should have a __proto__ property that is null
+    sample(arb, { numRuns: 10 }).forEach((v) => {
+      const withProto = JSON.stringify(v, ['__proto__', 'foo']);
+
+      expect(v).toHaveProperty('toString');
+      expect(v).toHaveProperty('hasOwnProperty');
+      expect(withProto).toStrictEqual('{"__proto__":{"__proto__":null},"foo":"bar"}');
+      expectT(v).toStrictEqual({ foo: 'bar' });
+    });
   });
 });

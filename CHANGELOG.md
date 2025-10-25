@@ -5,28 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.60] - 2024-12-23
+## [0.0.61] - 2024-11-15
+
+### Added
+
+- Added `noNullPrototype` option to `inputOf` function
+
+## [0.0.60] - 2025-10-23
 
 ### Changed
 
 - Update pnpm-lock.yaml to ensure CI compatibility
 - Fix linting and formatting issues
 
-## [0.0.59] - 2024-12-23
+## [0.0.59] - 2025-10-23
 
 ### Fixed
 
 - Sync package.json with pnpm-lock.yaml to fix CI frozen-lockfile error
 - Add missing dependencies that were installed by pnpm
 
-## [0.0.58] - 2024-12-23
+## [0.0.58] - 2025-10-23
 
 ### Changed
 
 - Updated all development dependencies to latest versions
 - Updated knip configuration to include test files and JavaScript files
 
-## [0.0.57] - 2024-12-23
+## [0.0.57] - 2025-10-23
 
 ### Fixed
 

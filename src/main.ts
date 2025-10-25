@@ -56,7 +56,11 @@ function __injectDefaultValue<T extends AllowedInput, U>(arb: Arb<T>, defaultVal
   return option(arb, { nil: defaultValue }) as Arb<T>;
 }
 
-function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
+function matchArbitrary<T extends AllowedInput>(
+  validator: T,
+  options: { noNullPrototype?: boolean } = { noNullPrototype: false },
+): Arb<T> {
+  const { noNullPrototype } = options;
   const defaultValue = constant(undefined);
 
   switch (true) {
@@ -106,10 +110,13 @@ function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
 
     case validator.meta.tag === 'object' || validator.meta.tag === 'intersection': {
       const props = Object.fromEntries(
-        Object.entries<Validator<T>>(validator.meta.props).map(([k, v]) => [k, inputOf(v)]),
+        Object.entries<Validator<T>>(validator.meta.props).map(([k, v]) => [
+          k,
+          inputOf(v, { noNullPrototype: noNullPrototype ?? false }),
+        ]),
       );
 
-      return record(props) as Arb<T>;
+      return record(props, { noNullPrototype: noNullPrototype ?? false }) as Arb<T>;
     }
 
     case validator.meta.tag === 'array': {
@@ -119,7 +126,9 @@ function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
     }
 
     case validator.meta.tag === 'dictionary': {
-      return dictionary(string(), inputOf(validator.meta.value)) as Arb<T>;
+      return dictionary(string(), inputOf(validator.meta.value), {
+        noNullPrototype: noNullPrototype ?? false,
+      }) as Arb<T>;
     }
 
     case validator.meta.tag === 'tuple': {
@@ -141,8 +150,11 @@ function matchArbitrary<T extends AllowedInput>(validator: T): Arb<T> {
   }
 }
 
-function inputOf<T extends AllowedInput>(validator: T): Arb<T> {
-  const arb = matchArbitrary(validator);
+function inputOf<T extends AllowedInput>(
+  validator: T,
+  options: { noNullPrototype?: boolean } = { noNullPrototype: false },
+): Arb<T> {
+  const arb = matchArbitrary(validator, options);
 
   if (validator.meta.optional) {
     return option(arb, { nil: undefined }) as Arb<T>;

@@ -13,8 +13,10 @@
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
+- [Basic usage](#basic-usage)
+  - [Options](#options)
 - [Examples](#examples)
+- [Warning](#warning)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -48,6 +50,39 @@ fc.assert(
     // Examples of generated values: "JT>\"C9k", "h]iD\"27;", "S", "n\\Ye", ""…
 
     return string.validate(v).ok;
+  }),
+);
+```
+
+### Options
+
+The `inputOf` function accepts an optional second parameter with configuration options:
+
+```typescript
+inputOf(validator, { noNullPrototype?: boolean })
+```
+
+- **`noNullPrototype`** (default: `false`): When set to `true`, ensures that generated objects and dictionaries have a normal prototype (i.e., `Object.prototype`) instead of `null`. This option is useful when you need objects that behave like plain JavaScript objects with methods like `hasOwnProperty`, `toString`, etc.
+
+Example:
+
+```typescript
+import fc from 'fast-check';
+import { object, string } from 'idonttrustlikethat';
+import { inputOf } from 'idonttrustlikethat-fast-check';
+
+const validator = object({
+  name: string,
+  age: string,
+});
+
+// Generate objects with normal prototype
+const arbitrary = inputOf(validator, { noNullPrototype: true });
+
+fc.assert(
+  fc.property(arbitrary, (v) => {
+    // v has Object.prototype, so methods like hasOwnProperty are available
+    return v.hasOwnProperty('name') && validator.validate(v).ok;
   }),
 );
 ```
