@@ -753,4 +753,14 @@ describe('private function tests', () => {
       }
     });
   });
+
+  it('should support non empty array', () => {
+    const validator = array(number);
+    validator.meta.minLength = 1;
+    const result = inputOf(validator);
+
+    expectTypeOf(result).toEqualTypeOf<Arbitrary<Array<number>>>();
+
+    fc.assert(fc.property(result, (v) => validator.validate(v).ok && v.length > 0));
+  });
 });

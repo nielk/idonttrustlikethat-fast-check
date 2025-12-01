@@ -122,6 +122,10 @@ function matchArbitrary<T extends AllowedInput>(
     case validator.meta.tag === 'array': {
       const innerValue = inputOf(validator.meta.value, { noNullPrototype: noNullPrototype ?? false });
 
+      if (validator.meta.minLength) {
+        return array(innerValue, { minLength: validator.meta.minLength }) as Arb<T>;
+      }
+
       return array(innerValue) as Arb<T>;
     }
 
