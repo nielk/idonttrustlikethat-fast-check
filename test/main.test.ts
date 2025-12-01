@@ -699,4 +699,58 @@ describe('private function tests', () => {
       expectT(v).toStrictEqual({ foo: 'bar' });
     });
   });
+
+  it('should support `noNullPrototype` option for object in array', () => {
+    const validator = array(object({ foo: literal('bar') }));
+    const arb = inputOf(validator, { noNullPrototype: true });
+
+    // every object should have a __proto__ property that is null
+    sample(arb, { numRuns: 10 }).forEach((arr) => {
+      arr.forEach((v) => {
+        const withProto = JSON.stringify(v, ['__proto__', 'foo']);
+
+        expect(v).toHaveProperty('toString');
+        expect(v).toHaveProperty('hasOwnProperty');
+        expect(withProto).toStrictEqual('{"__proto__":{"__proto__":null},"foo":"bar"}');
+        expectT(v).toStrictEqual({ foo: 'bar' });
+      });
+    });
+  });
+
+  it('should support `noNullPrototype` option for object in array', () => {
+    const validator = array(object({ foo: literal('bar') }));
+    const arb = inputOf(validator, { noNullPrototype: true });
+
+    // every object should have a __proto__ property that is null
+    sample(arb, { numRuns: 10 }).forEach((arr) => {
+      arr.forEach((v) => {
+        const withProto = JSON.stringify(v, ['__proto__', 'foo']);
+
+        expect(v).toHaveProperty('toString');
+        expect(v).toHaveProperty('hasOwnProperty');
+        expect(withProto).toStrictEqual('{"__proto__":{"__proto__":null},"foo":"bar"}');
+        expectT(v).toStrictEqual({ foo: 'bar' });
+      });
+    });
+  });
+
+  it('should support `noNullPrototype` option for union', () => {
+    const validator = union(object({ foo: literal('bar') }), object({ bar: literal('foo') }));
+    const arb = inputOf(validator, { noNullPrototype: true });
+
+    sample(arb, { numRuns: 10 }).forEach((v) => {
+      const withProto = JSON.stringify(v, ['__proto__', 'foo', 'bar']);
+
+      expect(v).toHaveProperty('toString');
+      expect(v).toHaveProperty('hasOwnProperty');
+
+      if (Object.prototype.hasOwnProperty.call(v, 'foo')) {
+        expect(withProto).toStrictEqual('{"__proto__":{"__proto__":null},"foo":"bar"}');
+        expectT(v).toStrictEqual({ foo: 'bar' });
+      } else {
+        expect(withProto).toStrictEqual('{"__proto__":{"__proto__":null},"bar":"foo"}');
+        expectT(v).toStrictEqual({ bar: 'foo' });
+      }
+    });
+  });
 });

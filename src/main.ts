@@ -120,7 +120,7 @@ function matchArbitrary<T extends AllowedInput>(
     }
 
     case validator.meta.tag === 'array': {
-      const innerValue = inputOf(validator.meta.value);
+      const innerValue = inputOf(validator.meta.value, { noNullPrototype: noNullPrototype ?? false });
 
       return array(innerValue) as Arb<T>;
     }
@@ -139,7 +139,9 @@ function matchArbitrary<T extends AllowedInput>(
     }
 
     case validator.meta.tag === 'union' && validator.meta.tag !== 'tuple': {
-      const types = validator.meta.union.map(inputOf);
+      const types = validator.meta.union.map((v: Validator<T>) =>
+        inputOf(v, { noNullPrototype: noNullPrototype ?? false }),
+      );
 
       return oneof(...types) as Arb<T>;
     }
@@ -204,7 +206,11 @@ const __mapTypeToIdtltType: { [k: string]: AllowedInput } = {
   isoDate: isoDate,
 };
 
-function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: number): ReadonlyArray<Arb<T>> {
+function __guessTupleTypes<T extends AllowedInput>(
+  validator: T,
+  numberOfTypes: number,
+  options: { noNullPrototype?: boolean } = { noNullPrototype: false },
+): ReadonlyArray<Arb<T>> {
   const errorPattern = /Expected\s(?<type>\w+), got a?/gm;
   const dummyValidation = validator.validate(
     Array.from({ length: numberOfTypes }).fill({
@@ -235,7 +241,7 @@ function __guessTupleTypes<T extends AllowedInput>(validator: T, numberOfTypes: 
       ) {
         const type = __mapTypeToIdtltType[matchedType] ?? idtltUndefined;
 
-        inferredTypes.push(inputOf(type) as Arb<T>);
+        inferredTypes.push(inputOf(type, { noNullPrototype: options.noNullPrototype ?? false }) as Arb<T>);
       } else if (matchedType !== 'undefined') {
         console.error('Union with non-primitive values is not yet supported');
       }
