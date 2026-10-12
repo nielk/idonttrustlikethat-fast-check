@@ -71,7 +71,7 @@
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
-    "fast-check": "4.3.0",
+    "fast-check": "4.10.2",
     "idonttrustlikethat": "2.1.2",
     "knip": "5.71.0",
     "oxlint": "1.31.0",
